@@ -8,46 +8,43 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/noticia', async (req, res) => {
 
-    try {
-        await storage.init();
-        //storage.setItem('noticias', []);
+    var noticias;
 
-        const noticias = await storage.getItem("noticias");
+    await storage.init();
 
-        var id = 0;
-        //console.log(noticias);
+    noticias = await storage.getItem("noticias");
 
-        if (noticias.length) {
-            id = noticias[(noticias.length) - 1].id;
-            id++;
-        }
-
-        noticias.push({
-            id: id,
-            titulo: req.body.titulo,
-            resumo: req.body.resumo,
-            url: req.body.url
-        });
-
-        await storage.updateItem('noticias', noticias);
-
-        res.send("Sucesso!");
-
-    } catch (err) {
-        res.send("Erro!");
+    if(noticias === undefined){
+        await storage.setItem('noticias', []);
+        noticias = await storage.getItem("noticias");
     }
+    
+    var id = 0;
+
+    if (noticias.length) {
+        id = noticias[(noticias.length) - 1].id;
+        id++;
+    }
+
+    noticias.push({
+        id: id,
+        titulo: req.body.titulo,
+        resumo: req.body.resumo,
+        url: req.body.url
+    });
+
+    await storage.updateItem('noticias', noticias);
+
+    res.send("Sucesso!");
 
 });
 
 app.get('/noticia', async (req, res) => {
 
-
     await storage.init();
-    // storage.setItem('noticias', []);
 
     const noticias = await storage.getItem("noticias");
     res.send(noticias);
-
 
 });
 
