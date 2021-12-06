@@ -6,11 +6,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/noticia', (req, res) => {
+app.post('/noticia', async (req, res) => {
 
-    (async () => {
-        try{
-            await storage.init();
+    try {
+        await storage.init();
         //storage.setItem('noticias', []);
 
         const noticias = await storage.getItem("noticias");
@@ -18,13 +17,13 @@ app.post('/noticia', (req, res) => {
         var id = 0;
         //console.log(noticias);
 
-        if(noticias.length){
-            id = noticias[(noticias.length) -1].id;
+        if (noticias.length) {
+            id = noticias[(noticias.length) - 1].id;
             id++;
         }
 
         noticias.push({
-            id: id, 
+            id: id,
             titulo: req.body.titulo,
             resumo: req.body.resumo,
             url: req.body.url
@@ -34,23 +33,21 @@ app.post('/noticia', (req, res) => {
 
         res.send("Sucesso!");
 
-        }catch(err){
-            res.send("Erro!");
-        }
-        
-    })();
+    } catch (err) {
+        res.send("Erro!");
+    }
+
 });
 
-app.get('/noticia', (req, res) => {
-    
-    (async () => {
-        
-        await storage.init();
-        // storage.setItem('noticias', []);
+app.get('/noticia', async (req, res) => {
 
-        const noticias = await storage.getItem("noticias");
-        res.send(noticias);
-    })();
+
+    await storage.init();
+    // storage.setItem('noticias', []);
+
+    const noticias = await storage.getItem("noticias");
+    res.send(noticias);
+
 
 });
 
