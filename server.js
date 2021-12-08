@@ -55,7 +55,6 @@ app.get('/noticia/:id', async(req, res) => {
     await storage.init();
 
     const noticias = await storage.getItem("noticias");
-    //console.log(noticias);
 
     if(noticias === undefined) res.send({error: "Lista de notícias vazia!"});
 
@@ -76,7 +75,8 @@ app.post('/inscricao', async (req, res) => {
     emails = await storage.getItem("emails");
 
     if(emails === undefined){
-        storage.setItem('emails', []);
+        await storage.setItem('emails', []);
+        emails = await storage.getItem("emails");
     }
 
     emails = await storage.getItem("emails");
