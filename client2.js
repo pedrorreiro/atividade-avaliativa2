@@ -20,14 +20,4 @@ axios.get('http://localhost:3000/noticia').then(res => {
     axios.put('http://localhost:3000/enviar/' + noticia.id).then(res =>{
         console.log("Notícia de ID " + noticia.id + " enviada!");
     })
-
-    // Isso mostra todas as notícias
-
-    // noticias.forEach(noticia => {
-    //     console.log("ID: " + noticia.id);
-    //     console.log("Título: " + noticia.titulo);
-    //     console.log("Resumo: " + noticia.resumo);
-    //     console.log("Url: " + noticia.url);
-    //     console.log("\n");
-    // })
 });
