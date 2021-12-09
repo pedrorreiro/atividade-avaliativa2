@@ -64,6 +64,7 @@ app.get('/noticia/:id', async(req, res) => {
 
     else{
         let noticia = noticias.find(noticia => noticia.id === id);
+        if(noticia === undefined) res.status(400).send("A notícia não existe!");
   
         res.send(noticia);
     }
@@ -123,7 +124,7 @@ app.put('/enviar/:id', async (req, res) => {
         }, 2000)
 
     }).catch(err => {
-        res.status(400).send("Lista de notícias vazias!")
+        res.status(400).send("A notícia não existe!");
     })
 
 })
